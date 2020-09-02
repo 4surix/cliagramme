@@ -85,6 +85,8 @@ def boite(*,
     espace_medianne_Q3 += surplus
     espace_Q3_max += surplus
 
+    print(valeur_min, valeur_Q1, espace_min_Q1)
+
     diagramme = (
         (
             titre + '\n' if titre
@@ -95,60 +97,56 @@ def boite(*,
         ### 1ère ligne
         + ' '
         # Patte
-        + ' ' 
-        + ' ' * espace_min_Q1 
+        + (' ' + ' ' * espace_min_Q1 if valeur_min != valeur_Q1 else '')
         # Boite
-        + '┌' + '─' * espace_Q1_medianne 
+        + '┌' 
+        + '─' * espace_Q1_medianne 
         + ('┬' if valeur_Q1 != medianne and medianne != valeur_Q3 else '─')
-        + '─' * espace_medianne_Q3 + '┐'
+        + '─' * espace_medianne_Q3 
+        + '┐'
         # Patte 
-        + ' ' * espace_Q3_max
-        + ' '
+        + (' ' * espace_Q3_max  + ' ' if valeur_Q3 != valeur_max else '')
 
         + '\n'
 
         ### 2ème ligne
         + ' '
         # Patte
-        + ('├' if valeur_min != valeur_Q1 else ' ')
-        + '─' * espace_min_Q1 
+        + ('├' + '─' * espace_min_Q1 if valeur_min != valeur_Q1 else '')
         # Boite
-        + '┤' + ' ' * espace_Q1_medianne 
+        + ('┤' if valeur_min != valeur_Q1 else '│')
+        + ' ' * espace_Q1_medianne 
         + ('│' if valeur_Q1 != medianne and medianne != valeur_Q3 else ' ')
-        + ' ' * espace_medianne_Q3 + '├'
+        + ' ' * espace_medianne_Q3 
+        + ('├' if valeur_Q3 != valeur_max else '│')
         # Patte
-        + '─' * espace_Q3_max 
-        + ('┤' if valeur_Q3 != valeur_max else ' ')
+        + ('─' * espace_Q3_max  + '┤' if valeur_Q3 != valeur_max else '')
 
         + '\n'
         
         ### 3ème ligne
         + ' '
         # Patte
-        + ' ' 
-        + ' ' * espace_min_Q1
+        + (' ' + ' ' * espace_min_Q1 if valeur_min != valeur_Q1 else '')
         # Boite
         + '└' + '─' * espace_Q1_medianne 
         + ('┴' if valeur_Q1 != medianne and medianne != valeur_Q3 else '─')
         + '─' * espace_medianne_Q3 + '┘'
         # Patte
-        + ' ' * espace_Q3_max 
-        + ' '
+        + (' ' * espace_Q3_max  + ' ' if valeur_Q3 != valeur_max else '')
 
         + '\n'
 
         ### Ligne graduation
         + '─'
         # Patte
-        + ('┼' if valeur_min != valeur_Q1 else '─')
-        + '─' * espace_min_Q1 
+        + ('┼' + '─' * espace_min_Q1 if valeur_min != valeur_Q1 else '')
         # Boite
         + '┼' + '─' * espace_Q1_medianne 
         + ('┼' if valeur_Q1 != medianne and medianne != valeur_Q3 else '─') 
         + '─' * espace_medianne_Q3 + '┼'
         # Patte
-        + '─' * espace_Q3_max
-        + ('┼' if valeur_Q3 != valeur_max else '─')
+        + ('─' * espace_Q3_max + '┼' if valeur_Q3 != valeur_max else '')
         + '─'
 
         + '\n'
@@ -156,19 +154,27 @@ def boite(*,
         ### Ligne valeurs
         + ' '
         # Patte
-        + (str(valeur_min) if valeur_min != valeur_Q1 else ' ')
-        + ' ' * (espace_min_Q1 + (1 - len(str(valeur_min))))
+        + ( 
+            '' if valeur_min == valeur_Q1 
+            else
+                str(valeur_min) + ' ' * (espace_min_Q1 + (1 - len(str(valeur_min))))
+        )
         # Boite
-        + str(valeur_Q1) + ' ' * (espace_Q1_medianne + (1 - len(str(valeur_Q1))))
+        + str(valeur_Q1) 
+        + ' ' * (espace_Q1_medianne + (1 - len(str(valeur_Q1))))
         + (
             str(medianne) if valeur_Q1 != medianne and medianne != valeur_Q3 
             else
                 ' '
         )
         + ' ' * (espace_medianne_Q3 + (1 - len(str(medianne))))
-        + str(valeur_Q3) + ' ' * (espace_Q3_max + (1 - len(str(valeur_Q3))))
+        + str(valeur_Q3)
         # Patte
-        + (str(valeur_max) if valeur_Q3 != valeur_max else ' ')
+        + (
+            '' if valeur_Q3 == valeur_max
+            else
+                ' ' * (espace_Q3_max + (1 - len(str(valeur_Q3)))) + str(valeur_max)
+        )
     )
 
     if return_diagramme:
