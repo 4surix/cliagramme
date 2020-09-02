@@ -14,7 +14,7 @@ Diagrammes supportés :
 
 __title__ = "cliagramme"
 __author__ = "Asurix"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 
 from .boite import boite

@@ -1,4 +1,5 @@
-## Cliagramme
+# Cliagramme
+
 Module servant à afficher et gérer facilement des diagrammes en console.  
 D'où le nom, CLI diagramme, cliagramme.  
   
@@ -7,7 +8,7 @@ Les diagrammes disponible sont :
 - Diagramme en boite (ou à moustache).
 - Diagramme rectangulaire (équivalent de circulaire).
 
-## Aperçu
+# Aperçu
 
 ```python
 import cligramme
@@ -45,8 +46,6 @@ cliagramme.baton(
 INDEX_2019 = 0
 INDEX_2020 = 1
 
-MOIS_ACTUEL = 8
-
 cliagramme.boite(
     titre="Présence Hirondelle de rivage en 2019 en France.",
     valeurs=[
@@ -76,7 +75,54 @@ cliagramme.rectangulaire(
 
 ![](https://i.imgur.com/gYBRGFA.png)
 
-## Documentation
+# Utilisation
+
+- Ouvrez une invite de commande.  
+  <details>
+    <summary>Comment faire ?</summary>
+
+    Appuyez sur la touche `Windows` + la touche `R`, et écrivez `cmd` dans la fenêtre qui s'est ouverte.
+  </details>
+  
+- Assurez vous d'avoir `Python >=3.6` d'installé. 
+  <details>
+    <summary>Comment savoir ?</summary>
+
+    Ecrivez `python --version` dans l'invite de commande. Si Python est installé cela affichera la version qui doit être supérieur à `3.6`.
+    Si ce n'est pas le cas, [installer Python](https://www.python.org/downloads/) dans une version égal ou supérieur à 3.6 pour éviter les soucis de compatibilité.
+  </details>
+  
+- Assurez vous d'avoir `pip` d'installé. 
+  <details>
+    <summary>Comment savoir ?</summary>
+
+    Ecrivez `pip --version` dans l'invite de commande. Si `pip` est installé cela affichera la version qui doit être supérieur à `10.0.0`.  
+    Si ce n'est pas le cas, écrivez `python -m pip install --upgrade pip` pour mettre à jour.
+  </details>
+  
+- Ecrivez la commande suivante :  
+    ```sh
+    pip install cliagramme
+    ```
+  
+- L'ors de nouvelle mise à jour il suffira de rajouter `--upgrade` pour mettre le module à jour : 
+    ```sh
+    pip install cliagramme --upgrade
+    ```
+
+- Ensuite créez un nouveau fichier, importez le module, et amusez vous !
+    ```python
+    import cliagramme
+
+    print(cliagramme.baton(
+        valeur={
+            x: x
+            for x in range(10)
+        }
+    ))
+    ```
+
+# Documentation
 
 #### baton(\*, titre:str = None, valeurs:dict or list, legende:list = None, max_valeurs_y:int = 10, min_y_nul:bool = True, saut_valeur_y:int = 1, couleur:bool = True, return_diagramme:bool = False) -> None or str:
 Diagramme en bâton.  
