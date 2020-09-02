@@ -85,8 +85,6 @@ def boite(*,
     espace_medianne_Q3 += surplus
     espace_Q3_max += surplus
 
-    print(valeur_min, valeur_Q1, espace_min_Q1)
-
     diagramme = (
         (
             titre + '\n' if titre
