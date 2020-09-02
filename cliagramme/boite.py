@@ -32,19 +32,21 @@ def boite(*,
     #   pour que l'accée aux indexs soit plus intuitive.
     valeurs.insert(0, None)
 
+    nbr_valeurs = len(valeurs) - 1 # On ne compte pas le None
+
     valeur_min = valeurs[1]
     valeur_max = valeurs[-1]
-
-    nbr_valeurs = len(valeurs)
 
     valeur_Q1 = valeurs[round(nbr_valeurs / 4)]
     valeur_Q3 = valeurs[round(nbr_valeurs / 4 * 3)]
 
-    if not nbr_valeurs % 2 == 0: # Si pair, sans le None
-        medianne = round(
+    if nbr_valeurs % 2 == 0:
+        medianne = (
             (valeurs[nbr_valeurs // 2] + valeurs[nbr_valeurs // 2 + 1]) / 2
         )
-    else: # Si impair
+        if str(medianne)[-2:] == '.0':
+            medianne = int(medianne)
+    else:
         medianne = valeurs[round(nbr_valeurs / 2)]
 
     palier = (valeur_max - valeur_min) / graduation
@@ -54,11 +56,34 @@ def boite(*,
     espace_medianne_Q3 = round((valeur_Q3 - medianne) / palier)
     espace_Q3_max = round((valeur_max - valeur_Q3) / palier)
 
-    valeur_min = round(valeur_min)
-    valeur_Q1 = round(valeur_Q1)
-    medianne = round(medianne)
-    valeur_Q3 = round(valeur_Q3)
-    valeur_max = round(valeur_max)
+    valeur_min = round(valeur_min, 3)
+    valeur_Q1 = round(valeur_Q1, 3)
+    medianne = round(medianne, 3)
+    valeur_Q3 = round(valeur_Q3, 3)
+    valeur_max = round(valeur_max, 3)
+
+    surplus = 0
+
+    len__ = len(str(valeur_min))
+    if len__ > espace_min_Q1 and len__ > surplus:
+        surplus = len__
+
+    len__ = len(str(valeur_Q1))
+    if len__ > espace_Q1_medianne and len__ > surplus:
+        surplus = len__
+
+    len__ = len(str(medianne))
+    if len__ > espace_medianne_Q3 and len__ > surplus:
+        surplus = len__
+
+    len__ = len(str(valeur_Q3))
+    if len__ > espace_Q3_max and len__ > surplus:
+        surplus = len__
+
+    espace_min_Q1 += surplus
+    espace_Q1_medianne += surplus
+    espace_medianne_Q3 += surplus
+    espace_Q3_max += surplus
 
     diagramme = (
         (

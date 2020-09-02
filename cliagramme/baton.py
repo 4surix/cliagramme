@@ -93,8 +93,10 @@ def baton(*,
     min_valeur_y = sys.maxsize
     max_valeur_y = 0
 
-    taille_max_valeurs_x = 0
+    taille_max_valeurs_x = taille_max_valeurs_y = 0
     taille_baton = 0
+
+    __valeurs = {}
     
     for valeur_x, valeur_y in valeurs.items():
 
@@ -104,10 +106,18 @@ def baton(*,
             if not nombre_baton:
                 raise ValueError('')
 
+            __valeur_y = []
+
+            taille_valeur_y = 0
+
             for valeur_y in valeur_y:
 
                 if not isinstance(valeur_y, (int, float)):
                     raise ValueError('')
+
+                valeur_y = round(valeur_y, 3)
+
+                __valeur_y.append(valeur_y)
 
                 if valeur_y > max_valeur_y:
                    max_valeur_y = valeur_y
@@ -115,7 +125,17 @@ def baton(*,
                 elif valeur_y < min_valeur_y:
                    min_valeur_y = valeur_y
 
+                len_valeur_y = len(str(valeur_y))
+
+                if len_valeur_y > taille_valeur_y:
+                    taille_valeur_y = len_valeur_y
+
         elif isinstance(valeur_y, (int, float)):
+
+            valeur_y = round(valeur_y, 3)
+
+            __valeur_y = [valeur_y]
+
             nombre_baton = 1
 
             if valeur_y > max_valeur_y:
@@ -124,15 +144,29 @@ def baton(*,
             elif valeur_y < min_valeur_y:
                min_valeur_y = valeur_y
 
+            taille_valeur_y = len(str(valeur_y))
+
         else:
             raise ValueError('')
 
 
-        if isinstance(valeur_x, (int, float, str)):
+        if isinstance(valeur_x, float):
+
+            __valeur_x = valeur_x = round(valeur_x, 3)
+
+            taille_valeur_x = len(str(valeur_x))
+
+        elif isinstance(valeur_x, (int, str)):
+
+            __valeur_x = valeur_x
+
             taille_valeur_x = len(str(valeur_x))
 
         else:
             raise ValueError('')
+
+
+        __valeurs[__valeur_x] = __valeur_y
 
 
         if nombre_baton > taille_baton:
@@ -140,6 +174,12 @@ def baton(*,
 
         if taille_valeur_x > taille_max_valeurs_x:
            taille_max_valeurs_x = taille_valeur_x
+
+        if taille_valeur_y > taille_max_valeurs_y:
+           taille_max_valeurs_y = taille_valeur_y
+
+
+    valeurs = __valeurs
 
 
     # Espacement des bâtons.
@@ -164,8 +204,6 @@ def baton(*,
     surplus = max_valeur_y % palier
 
     ligne_valeur_y = round(max_valeur_y - surplus)
-
-    taille_max_valeurs_y = len(str(ligne_valeur_y))
 
     # Création de l'affichage.
 
@@ -194,11 +232,7 @@ def baton(*,
 
             index_baton = 0
 
-            for valeur_y in (
-                    valeurs_y if isinstance(valeurs_y, (tuple, list))
-                    else
-                        [valeurs_y]
-                ):
+            for valeur_y in valeurs_y:
 
                 if valeur_y > ligne_valeur_y:
                     ligne += (
